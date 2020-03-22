@@ -12,7 +12,7 @@ class App extends Component {
 
   state = {
     name: "ali",
-    age: 20
+    age: 19
   };
 
   Submit = () => {
@@ -22,7 +22,22 @@ class App extends Component {
     });
   };
 
-  myData = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+  myData = [
+    {
+      name: "Ali Haider",
+      age: 21,
+      isComment: false,
+      image:
+        "https://cdn.pixabay.com/photo/2020/03/19/16/49/genoa-4948029_960_720.jpg"
+    },
+    {
+      name: "Jaffar",
+      age: 22,
+      isComment: true,
+      image:
+        "https://cdn.pixabay.com/photo/2017/08/10/05/18/home-2618511_960_720.jpg"
+    }
+  ];
 
   render() {
     return (
@@ -34,11 +49,27 @@ class App extends Component {
         <Export />
         <SecondExport /> */}
         <p>{this.state.name}</p>
-        <p>{this.state.age == 20 ? "You are a teenager" : "No you are not"}</p>
-        <button onClick={this.Submit}>name changer</button>
-        {this.myData.map(item => {
-          return <p style={{ margin: 10 }}>{item}</p>;
+        <p>{this.state.age < 20 ? "You are a teenager" : "No you are not"}</p>
+
+        {this.myData.map(data => {
+          return (
+            <div class="card" style={{ width: "18rem" }}>
+              <img src={data.image} class="card-img-top" alt="..." />
+              <div class="card-body">
+                <h5 class="card-title">{data.name}</h5>
+                <p class="card-text">My age is {data.age}</p>
+
+                {data.isComment == true ? (
+                  <a href="#" class="btn btn-primary">
+                    Go somewhere
+                  </a>
+                ) : null}
+              </div>
+            </div>
+          );
         })}
+
+        <button onClick={this.Submit}>name changer</button>
       </div>
     );
   }
