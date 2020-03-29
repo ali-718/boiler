@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import * as f from "firebase";
 
 export default class Home extends Component {
   //lifecycle methods
@@ -10,6 +11,28 @@ export default class Home extends Component {
 
   componentDidMount() {
     console.log("I am component did mount");
+
+    //add database
+    // f.database()
+    //   .ref("users")
+    //   .push({
+    //     name: "talha",
+    //     age: 21
+    //   });
+
+    //remove data from database
+    // f.database()
+    //   .ref("users")
+    //   .child("-M3_z46oqOqw36n9bqjd")
+    //   .remove();
+
+    //update data from database
+    // f.database()
+    //   .ref("users")
+    //   .child("-M3_zAr3WvHDWSL3JtMf")
+    //   .update({
+    //     age: 25
+    //   });
   }
 
   componentWillUnmount() {

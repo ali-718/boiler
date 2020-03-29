@@ -6,6 +6,7 @@ import Home from "./screens/Home";
 import About from "./screens/About";
 import Test from "./screens/Test";
 import Error from "./screens/404";
+import "./config";
 
 class App extends Component {
   render() {
