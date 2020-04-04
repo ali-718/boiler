@@ -6,34 +6,57 @@ export default class Home extends Component {
   //lifecycle methods
 
   state = {
-    name: "ali"
+    name: "ali",
+    data: [],
+    isLoading: true,
   };
 
   componentDidMount() {
     console.log("I am component did mount");
 
-    //add database
-    // f.database()
-    //   .ref("users")
-    //   .push({
-    //     name: "talha",
-    //     age: 21
-    //   });
+    // adding data to database
+    // f.database().ref("users").push({
+    //   name: "ali",
+    //   age: 21,
+    // });
 
-    //remove data from database
-    // f.database()
-    //   .ref("users")
-    //   .child("-M3_z46oqOqw36n9bqjd")
-    //   .remove();
+    // updating database
+    // f.database().ref("users").child("-M43jM3RK4ki8KfyHnHU").update({
+    //   age: 22,
+    // });
 
-    //update data from database
-    // f.database()
-    //   .ref("users")
-    //   .child("-M3_zAr3WvHDWSL3JtMf")
-    //   .update({
-    //     age: 25
-    //   });
+    // remove database
+    // f.database().ref("users").child("-M43jM3RK4ki8KfyHnHU").remove();
+
+    f.database()
+      .ref("users")
+      .once("value")
+      .then((res) => {
+        res.forEach((snapShot) => {
+          console.log({ ...snapShot.val(), id: snapShot.key });
+
+          this.setState({
+            data: [...this.state.data, { ...snapShot.val(), id: snapShot.key }],
+          });
+        });
+      })
+      .then(() => {
+        this.setState({
+          isLoading: false,
+        });
+      });
   }
+
+  // ar = [1, 2, 3, 4, 5];
+  // ar2 = [6, 7, 8, 9, 10];
+  // result = [...ar, ...ar2];
+
+  // output = [
+  //  1, 2, 3, 4, 5,
+  //   6, 7, 8, 9, 10
+  // ];
+
+  // expexted = [1,2,3,4,5,6,7,8,9,10]
 
   componentWillUnmount() {
     console.log("i am component un mount");
@@ -51,17 +74,19 @@ export default class Home extends Component {
   render() {
     return (
       <div>
-        <h1>Home</h1>
-        <Link to="/about">go to about page</Link>
-        <button
-          onClick={() => {
-            this.setState({
-              name: "haider"
-            });
-          }}
-        >
-          change
-        </button>
+        {this.state.isLoading == true ? (
+          <h1>loading</h1>
+        ) : (
+          <div>
+            {this.state.data.map((item) => (
+              <div key={item.id} style={{ marginTop: 30 }}>
+                <h3>id: {item.id}</h3>
+                <h3>Name: {item.name}</h3>
+                <h3>age: {item.age}</h3>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     );
   }
