@@ -7,6 +7,7 @@ import About from "./screens/About";
 import Test from "./screens/Test";
 import Error from "./screens/404";
 import "./config";
+import Login from "./screens/Login";
 
 class App extends Component {
   render() {
@@ -14,6 +15,7 @@ class App extends Component {
       <Router>
         <Switch>
           <Route exact path="/" component={Home} />
+          <Route exact path="/login" component={Login} />
           <Route exact path="/about" component={About} />
           <Route exact path="/about/test" component={Test} />
           <Route exact component={Error} />
