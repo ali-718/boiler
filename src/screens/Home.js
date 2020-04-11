@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Link, Redirect } from "react-router-dom";
 import * as f from "firebase";
+import Loading from "./Loading";
 
 export default class Home extends Component {
   //lifecycle methods
@@ -15,12 +16,13 @@ export default class Home extends Component {
     Id: "",
   };
 
-  componentDidMount() {
+  constructor(props) {
+    super(props);
     // f.auth().signOut();
     f.auth().onAuthStateChanged((user) => {
       console.log(user);
       if (user == null) {
-        this.props.history.push("/login");
+        props.history.push("/login");
         return 0;
       }
     });
@@ -82,10 +84,10 @@ export default class Home extends Component {
   //   console.log("I am updating");
   // }
 
-  constructor() {
-    super();
-    console.log("i am a constructor");
-  }
+  // constructor() {
+  //   super();
+  //   console.log("i am a constructor");
+  // }
 
   EditForm = (item) => {
     //this will only get data from list to edit form
@@ -147,7 +149,7 @@ export default class Home extends Component {
     return (
       <div>
         {this.state.isLoading == true ? (
-          <h1>loading</h1>
+          <Loading />
         ) : (
           <div>
             <button
