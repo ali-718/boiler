@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import * as f from "firebase";
 import Loading from "./Loading";
+import { connect } from "react-redux";
 
-export default class Login extends Component {
+class Login extends Component {
   state = {
     Email: "",
     Password: "",
@@ -43,6 +44,7 @@ export default class Login extends Component {
           <Loading />
         ) : (
           <div>
+            <h1>{this.props.auth.name}</h1>
             <div class="form-group">
               <label for="exampleInputEmail1">Email address</label>
               <input
@@ -93,3 +95,9 @@ export default class Login extends Component {
     );
   }
 }
+
+const mapStateToProps = (state) => ({
+  auth: state.ali,
+});
+
+export default connect(mapStateToProps)(Login);

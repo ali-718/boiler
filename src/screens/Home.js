@@ -2,8 +2,10 @@ import React, { Component } from "react";
 import { Link, Redirect } from "react-router-dom";
 import * as f from "firebase";
 import Loading from "./Loading";
+import { connect } from "react-redux";
+import { changeName } from "../actions/authActions";
 
-export default class Home extends Component {
+class Home extends Component {
   //lifecycle methods
 
   state = {
@@ -203,7 +205,14 @@ export default class Home extends Component {
                 </div>
               </div>
             ) : null}
-
+            <h1>{this.props.auth.name}</h1>
+            <button
+              onClick={() => this.props.changeName()}
+              type="button"
+              className="btn btn-primary"
+            >
+              Changer
+            </button>
             {this.state.data.map((item) => (
               <div key={item.id} style={{ marginTop: 30 }}>
                 <h3>id: {item.id}</h3>
@@ -234,3 +243,9 @@ export default class Home extends Component {
     );
   }
 }
+
+const mapStateToProps = (state) => ({
+  auth: state.ali,
+});
+
+export default connect(mapStateToProps, { changeName })(Home);
