@@ -10,6 +10,7 @@ import "./config";
 import Login from "./screens/Login";
 import { Provider } from "react-redux";
 import store from "./store";
+import Signup from "./screens/Signup";
 
 class App extends Component {
   render() {
@@ -19,6 +20,7 @@ class App extends Component {
           <Switch>
             <Route exact path="/" component={Home} />
             <Route exact path="/login" component={Login} />
+            <Route exact path="/signup" component={Signup} />
             <Route exact path="/about" component={About} />
             <Route exact path="/about/test" component={Test} />
             <Route exact component={Error} />

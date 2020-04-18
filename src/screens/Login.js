@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import * as f from "firebase";
 import Loading from "./Loading";
 import { connect } from "react-redux";
+import { UserLogin } from "../actions/authActions";
 
 class Login extends Component {
   state = {
@@ -25,17 +26,17 @@ class Login extends Component {
     });
   }
 
-  Login = () => {
-    f.auth()
-      .signInWithEmailAndPassword(this.state.Email, this.state.Password)
-      .then(() => {
-        this.props.history.push("/");
-      })
-      .catch((e) => {
-        // alert("Wrong email or password");
-        this.setState({ isError: true });
-      });
-  };
+  // Login = () => {
+  //   f.auth()
+  //     .signInWithEmailAndPassword(this.state.Email, this.state.Password)
+  //     .then(() => {
+  //       this.props.history.push("/");
+  //     })
+  //     .catch((e) => {
+  //       // alert("Wrong email or password");
+  //       this.setState({ isError: true });
+  //     });
+  // };
 
   render() {
     return (
@@ -44,7 +45,6 @@ class Login extends Component {
           <Loading />
         ) : (
           <div>
-            <h1>{this.props.auth.name}</h1>
             <div class="form-group">
               <label for="exampleInputEmail1">Email address</label>
               <input
@@ -86,7 +86,17 @@ class Login extends Component {
                 Check me out
               </label>
             </div>
-            <button onClick={this.Login} type="submit" class="btn btn-primary">
+            <button
+              onClick={() =>
+                this.props.UserLogin(
+                  this.props.history,
+                  this.state.Email,
+                  this.state.Password
+                )
+              }
+              type="submit"
+              class="btn btn-primary"
+            >
               Submit
             </button>
           </div>
@@ -100,4 +110,4 @@ const mapStateToProps = (state) => ({
   auth: state.ali,
 });
 
-export default connect(mapStateToProps)(Login);
+export default connect(mapStateToProps, { UserLogin })(Login);

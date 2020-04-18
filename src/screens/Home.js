@@ -3,7 +3,7 @@ import { Link, Redirect } from "react-router-dom";
 import * as f from "firebase";
 import Loading from "./Loading";
 import { connect } from "react-redux";
-import { changeName } from "../actions/authActions";
+import { changeName, SaveUser } from "../actions/authActions";
 
 class Home extends Component {
   //lifecycle methods
@@ -16,6 +16,7 @@ class Home extends Component {
     Name: "",
     Age: "",
     Id: "",
+    user: {},
   };
 
   constructor(props) {
@@ -27,6 +28,13 @@ class Home extends Component {
         props.history.push("/login");
         return 0;
       }
+      f.database()
+        .ref("users")
+        .child(user.uid)
+        .once("value")
+        .then((res) => {
+          this.props.SaveUser(res.val());
+        });
     });
 
     console.log("I am component did mount");
@@ -91,6 +99,14 @@ class Home extends Component {
   //   console.log("i am a constructor");
   // }
 
+  componentWillReceiveProps(props) {
+    if (props.auth.user) {
+      this.setState({
+        user: props.auth.user,
+      });
+    }
+  }
+
   EditForm = (item) => {
     //this will only get data from list to edit form
     this.setState({
@@ -154,6 +170,11 @@ class Home extends Component {
           <Loading />
         ) : (
           <div>
+            <div
+              style={{ width: "100%", display: "flex", flexDirection: "row" }}
+            >
+              <h3>Name: {this.state.user.Name}</h3>
+            </div>
             <button
               onClick={() => this.Logout()}
               type="button"
@@ -248,4 +269,4 @@ const mapStateToProps = (state) => ({
   auth: state.ali,
 });
 
-export default connect(mapStateToProps, { changeName })(Home);
+export default connect(mapStateToProps, { changeName, SaveUser })(Home);
